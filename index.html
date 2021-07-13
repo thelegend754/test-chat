@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Online</title>
+</head>
+<body>
+  <h1>Welcome to my chat!</h1>
+  <textarea placeholder="Write your message here" name="message" id="message" cols="30" rows="10"></textarea><br><br>
+  <button type="button" class="emit-btn">Send</button><br><br>
+  <div class="messages-holder"></div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+
+    const socket = io.connect();
+
+    $('.emit-btn').on('click', () => {
+
+      let text = $('#message').val().trim();
+      socket.emit('input', text);
+      $('#message').val('');
+
+    });
+
+    socket.on('new', message => {
+
+      $('.messages-holder').append(`${message} <br>`);
+
+    });
+
+  </script>
+
+</body>
+</html>
